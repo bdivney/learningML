@@ -4,11 +4,11 @@ import pandas as pd
 from sklearn import linear_model
 import sklearn
 from sklearn.utils import shuffle
-import matplotlib.pyplot as plt
-from matplotlib import style
+#import matplotlib.pyplot as plt
+#from matplotlib import style
 import pickle
 
-style.use("ggplot")
+#style.use("ggplot")
 
 data = pd.read_csv("student-mat.csv", sep=";")
 
@@ -24,20 +24,21 @@ x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(x, y
 
 # TRAIN MODEL MULTIPLE TIMES FOR BEST SCORE
 best = 0
-for _ in range(20):
+for _ in range(50):
     x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(x, y, test_size=0.1)
 
     linear = linear_model.LinearRegression()
 
     linear.fit(x_train, y_train)
     acc = linear.score(x_test, y_test)
-    print("Accuracy: " + str(acc))
+    #print("Accuracy: " + str(acc))
 
     if acc > best:
         best = acc
+        print("Accuracy: " + str(acc))
         with open("studentgrades.pickle", "wb") as f:
             pickle.dump(linear, f)
-
+'''
 # LOAD MODEL
 pickle_in = open("studentgrades.pickle", "rb")
 linear = pickle.load(pickle_in)
@@ -51,8 +52,10 @@ print("-------------------------")
 predicted= linear.predict(x_test)
 for x in range(len(predicted)):
     print(predicted[x], x_test[x], y_test[x])
+'''
+print(linear.score(x_test, y_test))
 
-
+"""
 # Drawing and plotting model
 plot = "failures"
 plt.scatter(data[plot], data["G3"])
@@ -60,3 +63,5 @@ plt.legend(loc=4)
 plt.xlabel(plot)
 plt.ylabel("Final Grade")
 plt.show()
+"""
+
